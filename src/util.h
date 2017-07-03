@@ -12,7 +12,7 @@
 #include <assert.h>
 
 #include "flann.h"
-#include "constants.h"
+//#include "constants.h"
 
 using namespace std;
 
@@ -153,7 +153,7 @@ void saveFLANNParameters(FLANNParameters& ann_para, char* filename){
   fprintf(fp, "%f\n", ann_para.memory_weight);
   fprintf(fp, "%f\n", ann_para.sample_fraction);
   fprintf(fp, "%d\n", int(ann_para.log_level));
-  fprintf(fp, "%s\n", ann_para.log_destination);
+//  fprintf(fp, "%s\n", ann_para.log_destination);
   fprintf(fp, "%ld\n", ann_para.random_seed);
   fclose(fp);
   fp=NULL;
@@ -172,7 +172,7 @@ void printFLANNParameters(FLANNParameters& ann_para, FILE* stream){
   fprintf(stream, "%f\n", ann_para.memory_weight);                                                                                                        
   fprintf(stream, "%f\n", ann_para.sample_fraction);
   fprintf(stream, "%d\n", int(ann_para.log_level));                                                                                                       
-  fprintf(stream, "%s\n", ann_para.log_destination);                                                                                                      
+//  fprintf(stream, "%s\n", ann_para.log_destination);                                                                                                      
   fprintf(stream, "%ld\n", ann_para.random_seed);                                                                                                         
 } 
 

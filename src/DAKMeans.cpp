@@ -90,11 +90,12 @@ www.hwkang.com
 #include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <float.h>
 #include <assert.h>
 
 #include "flann.h"
-#include "constants.h"
+//#include "constants.h"
 #include "util.h"
 
 #include "pthread.h"
@@ -433,7 +434,7 @@ int main(int argc, char **argv)
     ann_para.memory_weight = 0.1;
     ann_para.sample_fraction = 0.2;
     ann_para.sample_fraction = float(min(max(min(100000, size_t(num_db_feat*0.2)), 10000), num_db_feat))/num_db_feat; //using the minimum of 100000 features or 20% input features for K-means
-    ann_para.log_destination = NULL;
+    //ann_para.log_destination = NULL;
 
     ann_index = NULL;
 
@@ -449,8 +450,8 @@ int main(int argc, char **argv)
       fflush(stdout);
       fflush(stdout);
 
-      ann_para.log_destination = NULL;
-      ann_para.log_level = LOG_ERROR;
+      //ann_para.log_destination = NULL;
+      ann_para.log_level = FLANN_LOG_ERROR;
 
       printFLANNParameters(ann_para, stdout);
       fflush(stdout);
@@ -470,9 +471,9 @@ int main(int argc, char **argv)
     }
 
     ann_para.target_precision = -1;// use for built index
-    //ann_para.log_level = LOG_ERROR;
-    //ann_para.log_level = LOG_INFO;
-    ann_para.log_level = LOG_WARN;
+    //ann_para.log_level = FLANN_LOG_ERROR;
+    //ann_para.log_level = FLANN_LOG_INFO;
+    ann_para.log_level = FLANN_LOG_WARN;
 
     for(int itrial=0; itrial<num_trial; itrial++){               
       
@@ -647,7 +648,7 @@ void randInit(size_t seed, float* db_feats, float* cluster_feats, int* memberof,
       bool found = false;
       while(!found){
 	size_t ri=size_t(rand()%num_feats);
-	printf("ri: %d, num_feats: %d\n", ri, num_feats);
+	printf("ri: %zd, num_feats: %zd\n", ri, num_feats);
 	if(ri>=0 && ri<num_feats){
 	  if(!init_center[ri]){
 	    init_center[ri]=true;
@@ -684,7 +685,7 @@ void randInit(size_t seed, float* db_feats, float* cluster_feats, int* memberof,
     delete[] member_cnt;
 }
 
-typedef struct KEYVAL{
+struct KEYVAL{
   size_t key;
   double val;
 };
@@ -993,8 +994,8 @@ void* DAKMeans_assign_worker(void* arg){
 
     targ->distance[actual_i]=ann_dists[i];
     if(i<10){
-      printf("thread: %ld ann_dists[%ld]=%f\n", targ->threadid, i, ann_dists[i]);
-      printf("cluster[%ld]:", ann_indices[i]);
+      printf("thread: %d ann_dists[%ld]=%f\n", targ->threadid, i, ann_dists[i]);
+      printf("cluster[%d]:", ann_indices[i]);
       for(int j=0; j<targ->dim_feat; j++){
 	printf(" %f", targ->cluster_feats[ann_indices[i]*targ->dim_feat+j]);
       }
