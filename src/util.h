@@ -11,7 +11,7 @@
 #include <map>
 #include <assert.h>
 
-#include "flann.h"
+#include "flann/flann.h"
 //#include "constants.h"
 
 using namespace std;

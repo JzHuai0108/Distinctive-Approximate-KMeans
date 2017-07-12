@@ -426,9 +426,10 @@ int main(int argc, char **argv)
 	fclose(weight_fp);
       weight_fp=NULL;
       fprintf(stdout, "Done\n");
-    }    
+    }
 
     // default ANN parameters
+    ann_para = DEFAULT_FLANN_PARAMETERS;
     ann_para.target_precision = 0.9;
     ann_para.build_weight = 0.01;
     ann_para.memory_weight = 0.1;
